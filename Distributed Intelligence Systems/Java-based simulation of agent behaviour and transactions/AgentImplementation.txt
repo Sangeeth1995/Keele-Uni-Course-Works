@@ -1,0 +1,86 @@
+For agent operations, we have initially created book catelogues with size 150. 100 books were added with book titles 'book0' to 'book99'.
+Out of this 100 books, we created random 50 duplicates of book titles for producing mutiple stock entry.We have created bookInventory object array to insert 
+book titles and book prices.For book prices, we used maths random function to assign random book prices for book titles.
+
+Then we created 50 SellerAgent objects for our task. Each seller agent has unique agent ID.Then we distribute the book objects to seller agent.
+
+We have provided a design flow for the operation :
+
+1.Buyer Agent
+2.Seller Agent
+3.Exit
+
+1.Buyer Agent :
+
+Here we will create a buyer agent and behalf of us, buyer agent will search the book from the Seller agents.
+Buyer agent will issue a tender request for the targetbook with all the available seller agents.If the targetbook is found with certain Seller agent.
+Then we will get the book price and then bidding is allocated for that seller agent. The process will not stop here. 
+We will again search for the target book for the lower price.If we found lower price, then bidding is allocated for that particular seller agent.
+This process is repeated until we will get the lowest bid or offer.After the bid is made, we will display the result and remove the requested (copy of the) book from corresponding seller agent's catalogue.If the requested book is not found in none of the seller agent's catelogue then we will display that the requested book is in out of stock state.
+
+2.Seller Agent
+
+We have implemented GUI functionality here.GUI will pop up to enter the seller ID.We will add book details such as book name and book price for the corresponding seller agent.
+We will click the 'Add' button in the GUI to add the book details to the corresponding seller agent's catelouge.We will create a book object with booking details and append it to the corresponding seller agent's object.
+
+3.Exit
+
+Will exit the program 
+
+
+Class definitions
+
+
+BookTrade is the main class
+
+- book_titles: String array
+- duplicates: int array
+- bookInventory: book array
+- bookInventory: SellerAgent array
+- buyerAg: BuyerAgent
+
+Book
+
+- bk_name: String
+- bk_price: float
++ getBk_name(): String
++ getBk_price(): float
++ Book(String bk_name)
++ Book(String bk_name,float bk_price)
+
+Agent
+
+- agentId: String
++ setAgentId(String agentId): void
++ getAgentId(): String
+
+BuyerAgent
+
+- targetBook: String
+- lowestPriceSeller: SellerAgent
+- lowestPrice: float
+- bookHolder: Book
++ setTarget(String target): void - set the target book that user wants to buy
++ issueTender(SellerAgent targetAgent): void
++ searchAgent(SellerAgent targetAgent): void - This function searches a seller agent whether they have book in inventory.
++ reportResult(): void - Generate the report result of the tender
++ transferBook(): void - Move book from seller to bookHolder ,calls buyBook function to remove the transacted book from the seller catelogue
++ reportBookTransfer(): void - Report end of transaction
+
+SellerAgent
+
+- targetBook: String
+- targetBookIndex: int
+- inventory: ArrayList
++ receiveTender(String target): void
++ getTarget(): String
++ receiveBook(Book book): void - Add the book to the inventory ArrayList
++ checkInventory() - return price for the target book
++ buyBook - buyBook function to remove the transacted book from the seller catelogue
+
+
+
+
+
+
+

@@ -1,0 +1,68 @@
+
+/*
+CSC-40045
+Distributed Intelligent Systems
+Practical 3:
+Distributed Data Integration with Oracle SQL Views
+Coursework Part 1.3
+
+Question : Create your own integrated view on your Oracle account/tablespace. 
+Use florida.Staff and santiago.Employee as remote data sources.
+
+Submit your .sql script for integration and an .sql script with an example query
+
+*/
+
+/*Script starts from here*/
+
+
+/*
+descr or describe command shows the structure of the table.
+Displays column attribute's information such as name ,datatype  and nullabilty.
+*/
+
+DESCR FLORIDA.STAFF;
+DESCR SANTIAGO.EMPLOYEE;
+
+/*
+Returns the count of number of rows of the particular table.
+In this case, we could see row count is 1000 for both tables 
+*/
+
+SELECT COUNT(*) FROM FLORIDA.STAFF;
+SELECT COUNT(*) FROM SANTIAGO.EMPLOYEE;
+
+/*
+Here we are going to create views for our data integration.
+Creating view FLORIDA01 from the table FLORIDA.STAFF
+Creating view SANTIAGO01 from the table SANTIAGO.EMPLOYEE
+*/
+
+CREATE OR REPLACE VIEW FLORIDA01(STAFFNO, FNAME, LNAME, EMAIL, GENDER, IP_ADDRESS, DEPARTMENT)
+    AS SELECT S#, FN, LN, EMAIL, GENDER, IP_ADDRESS, DEPARTMENT
+    FROM FLORIDA.STAFF;
+
+CREATE OR REPLACE VIEW SANTIAGO01(STAFFNO, FNAME, LNAME, EMAIL, GENDER, IP_ADDRESS, DEPARTMENT)
+    AS SELECT SNO, FNAME, LNAME, EMAIL, GENDER, IP_ADDRESS, DEPT
+    FROM SANTIAGO.EMPLOYEE;
+
+/*
+Here we are going to create an integrated global view, named FLORIDAGO01
+*/
+
+CREATE OR REPLACE VIEW FLORIDAGO01 AS(
+    SELECT * FROM FLORIDA01
+    UNION
+    SELECT * FROM SANTIAGO01);
+
+/*
+Now we can execute any global query on FLORIDAGO01
+*/
+
+SELECT COUNT(*) FROM FLORIDAGO01;  /*This is an example query which returns row count as 2000 , since it is an integrated global view*/
+
+/*Script ends here*/
+
+/*
+CREATED BY 21022161
+*/
